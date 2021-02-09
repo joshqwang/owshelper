@@ -1,1 +1,1 @@
-worker: python owshelper/src/bot.py
+worker: python owshelper/bot.py
