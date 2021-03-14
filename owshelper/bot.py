@@ -25,7 +25,10 @@ async def on_message(message):
       return
     if not message.guild.name in all_stories:
           all_stories[message.guild.name] = ('', False,'', {})
-    if message.content == 'ows start':
+    if message.content == 'ows help':
+        temp_message = 'Available commands:\n help - displays this menu\n start - starts a story\n current - displays the current story\n end - ends any current stories'
+        await message.channel.send(temp_message)
+    elif message.content == 'ows start':
       
       if all_stories[message.guild.name][2] != '':
           await message.channel.send('Ending a story in other channel!')
@@ -56,7 +59,8 @@ async def on_message(message):
         await message.channel.send('Your story is: ' + all_stories[message.guild.name][0] +  '\n\nThe top contributors in this story were:\n' + contributors_message)
 
       all_stories[message.guild.name] = ('', False, '', {})
-
+    elif message.content[:3] == 'ows':
+        await message.channel.send('Sorry, I didn\'t recognize that command. Try ows help for a list of commands.')
     elif all_stories[message.guild.name][1] == True and message.channel.name == all_stories[message.guild.name][2]:
       all_stories[message.guild.name] = (all_stories[message.guild.name][0] + message.content + ' ', all_stories[message.guild.name][1], all_stories[message.guild.name][2], all_stories[message.guild.name][3])
       if message.author.display_name in all_stories[message.guild.name][3]:
