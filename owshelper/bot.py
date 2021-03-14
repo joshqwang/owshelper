@@ -30,18 +30,27 @@ async def on_message(message):
     
     if message.content == 'ows start':
       if current_channel != '':
-          await message.channel.send('Terminating a story in other channel!')
+          await message.channel.send('Ending a story in other channel!')
 
       current_story = ''
       ongoing_story = True
       current_channel = message.channel.name
       await message.channel.send('Starting a story!')
     elif message.content == 'ows current':
-      await message.channel.send('Your current story is: ' + current_story)
+     if ongoing_story == False:
+        await message.channel.send('There is not an ongoing story right now!')
+      elif current_story == '':
+        await message.channel.send('The current story is empty.')
+      else:
+        await message.channel.send('Your current story is: ' + current_story)
+
+     
 
     elif message.content == 'ows end':
-      if current_story == '':
+      if ongoing_story == False:
         await message.channel.send('There is not an ongoing story right now!')
+      elif current_story == '':
+        await message.channel.send('Ended the story.')
       else:
         await message.channel.send('Your story is: ' + current_story)
 
