@@ -40,7 +40,10 @@ async def on_message(message):
       await message.channel.send('Your current story is: ' + current_story)
 
     elif message.content == 'ows end':
-      await message.channel.send('Your story is: ' + current_story)
+      if current_story = '':
+        await message.channel.send('There is not an ongoing story right now!')
+      else:
+        await message.channel.send('Your story is: ' + current_story)
 
       current_story = ''
       ongoing_story = False
