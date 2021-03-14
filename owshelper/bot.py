@@ -39,9 +39,9 @@ async def on_message(message):
     elif message.content == 'ows current':
      if ongoing_story == False:
         await message.channel.send('There is not an ongoing story right now!')
-      elif current_story == '':
+     elif current_story == '':
         await message.channel.send('The current story is empty.')
-      else:
+     else:
         await message.channel.send('Your current story is: ' + current_story)
 
      
