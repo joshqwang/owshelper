@@ -36,8 +36,9 @@ async def on_message(message):
       ongoing_story = True
       current_channel = message.channel.name
       await message.channel.send('Starting a story!')
-      
-         
+    elif message.content == 'ows current':
+      await message.channel.send('Your current story is: ' + current_story)
+
     elif message.content == 'ows end':
       await message.channel.send('Your story is: ' + current_story)
 
