@@ -5,12 +5,14 @@ import discord
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 
+class Story:
+    story = ''
+    channel = ''
+    contributors = {}
+   
+
 client = discord.Client()
-
-contributors = {}
-
 all_stories = {}
-#{guild_name: (story, ongoing, channel, contributors)}
 
 @client.event
 async def on_ready():
@@ -18,59 +20,59 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    global all_stories
-    global current_channel
-    global contributors
     if message.author == client.user:
       return
-    if not message.guild.name in all_stories:
-          all_stories[message.guild.name] = ('', False,'', {})
+
+    
+
     if message.content == 'ows help':
         temp_message = 'Available commands:\n help - displays this menu\n start - starts a story\n current - displays the current story\n end - ends any current stories'
         await message.channel.send(temp_message)
-    elif message.content == 'ows start':
-      
-      if all_stories[message.guild.name][2] != '':
-          await message.channel.send('Ending a story in other channel!')
 
-      all_stories[message.guild.name] = ('', True, message.channel.name, {})
+    elif message.content == 'ows start':
+      if not message.guild.name in all_stories:
+          all_stories[message.guild.name] = Story()
+      else:
+          del all_stories[message.guild.name]
+          all_stories[message.guild.name] = Story()
+
+      if all_stories[message.guild.name].channel != '':
+          await message.channel.send('Ending a story in other channel!')
+      all_stories[message.guild.name].channel = message.channel.name
       await message.channel.send('Starting a story!')
+
     elif message.content == 'ows current':
-     if all_stories[message.guild.name][1] == False:
+     if not message.guild.name in all_stories:
         await message.channel.send('There is not an ongoing story right now!')
-     elif all_stories[message.guild.name][0] == '':
+     elif all_stories[message.guild.name].story == '':
         await message.channel.send('The current story is empty.')
      else:
-        await message.channel.send('Your current story is: ' + all_stories[message.guild.name][0])
-
-     
+        await message.channel.send('Your current story is: ' + all_stories[message.guild.name].story)
 
     elif message.content == 'ows end':
-      if all_stories[message.guild.name][1] == False:
+      if not message.guild.name in all_stories:
         await message.channel.send('There is not an ongoing story right now!')
-      elif all_stories[message.guild.name][0] == '':
+      elif all_stories[message.guild.name].story == '':
         await message.channel.send('Ended the story.')
+        del all_stories[message.guild.name]
       else:
-        contributors_items = list(all_stories[message.guild.name][3].items())
+        contributors_items = list((all_stories[message.guild.name].contributors).items())
         contributors_items.sort(key = lambda x : x[1], reverse = True)
         contributors_message = ''
         for key in contributors_items:
           contributors_message += key[0] + " - " + str(key[1]) + " contributions \n"
-        await message.channel.send('Your story is: ' + all_stories[message.guild.name][0] +  '\n\nThe top contributors in this story were:\n' + contributors_message)
+        await message.channel.send('Your story is: ' + all_stories[message.guild.name].story +  '\n\nThe top contributors in this story were:\n' + contributors_message)
+        del all_stories[message.guild.name]
 
-      all_stories[message.guild.name] = ('', False, '', {})
     elif message.content[:3] == 'ows':
         await message.channel.send('Sorry, I didn\'t recognize that command. Try ows help for a list of commands.')
-    elif all_stories[message.guild.name][1] == True and message.channel.name == all_stories[message.guild.name][2]:
-      all_stories[message.guild.name] = (all_stories[message.guild.name][0] + message.content + ' ', all_stories[message.guild.name][1], all_stories[message.guild.name][2], all_stories[message.guild.name][3])
-      if message.author.display_name in all_stories[message.guild.name][3]:
-        temp_dict = all_stories[message.guild.name][3]
-        temp_dict[message.author.display_name] += 1
-        all_stories[message.guild.name] = (all_stories[message.guild.name][0], all_stories[message.guild.name][1], all_stories[message.guild.name][2], temp_dict)
+
+    elif message.guild.name in all_stories and message.channel.name == all_stories[message.guild.name].channel:
+      all_stories[message.guild.name].story += ' ' + message.content
+      if message.author.display_name in (all_stories[message.guild.name].contributors):
+       all_stories[message.guild.name].contributors[message.author.display_name] += 1
       else:
-        temp_dict = all_stories[message.guild.name][3]
-        temp_dict[message.author.display_name] = 1
-        all_stories[message.guild.name] = (all_stories[message.guild.name][0], all_stories[message.guild.name][1], all_stories[message.guild.name][2], temp_dict)
+       all_stories[message.guild.name].contributors[message.author.display_name] = 1
       await message.add_reaction('\N{THUMBS UP SIGN}')
 
 
