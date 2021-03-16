@@ -6,13 +6,15 @@ import discord
 TOKEN = os.getenv('DISCORD_TOKEN')
 
 class Story:
-    story = ''
-    channel = ''
-    contributors = {}
+    def __init__(self):
+      self.story = ''
+      self.channel = ''
+      self.contributors = {}
    
 
 client = discord.Client()
 all_stories = {}
+#{guild_name: (story, ongoing, channel, contributors)}
 
 @client.event
 async def on_ready():
