@@ -37,14 +37,14 @@ async def on_message(message):
           del all_stories[message.guild.name]
       all_stories[message.guild.name] = Story()
 
-      start_game(all_stories[message.guild.name],message)
+      await start_game(all_stories[message.guild.name],message)
 
 
     elif message.content == 'ows current':
       if not message.guild.name in all_stories:
         await message.channel.send('There is not an ongoing story right now!')
       else:
-        disp_current(all_stories[message.guild.name], message)
+        await disp_current(all_stories[message.guild.name], message)
 
     elif message.content == 'ows end':
       if not message.guild.name in all_stories:
