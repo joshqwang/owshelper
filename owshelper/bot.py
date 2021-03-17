@@ -22,55 +22,41 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    global all_stories
     if message.author == client.user:
       return
+    guild = message.guild.name
+    game = all_stories[guild]
+    cur_channel = message.channel.name
+    command = message.content.lower()
 
-    
-
-    if message.content == 'ows help':
+    if command == 'ows help':
         temp_message = 'Available commands:\n help - displays this menu\n start - starts a story\n current - displays the current story\n end - ends any current stories'
         await message.channel.send(temp_message)
 
-    elif message.content == 'ows start':
+    elif command == 'ows start':
+      if guild in all_stories:
+          del game
+      game = Story()
+      await start_game(game,message)
 
-      if message.guild.name in all_stories:
-          del all_stories[message.guild.name]
-      all_stories[message.guild.name] = Story()
-
-      await start_game(all_stories[message.guild.name],message)
-
-
-    elif message.content == 'ows current':
-      if not message.guild.name in all_stories:
+    elif command == 'ows current':
+      if not guild in all_stories:
         await message.channel.send('There is not an ongoing story right now!')
       else:
-        await disp_current(all_stories[message.guild.name], message)
+        await disp_current(game, message)
 
-    elif message.content == 'ows end':
-      if not message.guild.name in all_stories:
+    elif command == 'ows end':
+      if not guild in all_stories:
         await message.channel.send('There is not an ongoing story right now!')
-      elif all_stories[message.guild.name].story == '':
-        await message.channel.send('Ended the story.')
-        del all_stories[message.guild.name]
       else:
-        contributors_items = list((all_stories[message.guild.name].contributors).items())
-        contributors_items.sort(key = lambda x : x[1], reverse = True)
-        contributors_message = ''
-        for key in contributors_items:
-          contributors_message += key[0] + " - " + str(key[1]) + " contributions \n"
-        await message.channel.send('Your story is: ' + all_stories[message.guild.name].story +  '\n\nThe top contributors in this story were:\n' + contributors_message)
-        del all_stories[message.guild.name]
+        await end_game(game, message)
 
-    elif message.content[:3] == 'ows':
+    elif command[:3] == 'ows':
         await message.channel.send('Sorry, I didn\'t recognize that command. Try ows help for a list of commands.')
 
-    elif message.guild.name in all_stories and message.channel.name == all_stories[message.guild.name].channel:
-      all_stories[message.guild.name].story += ' ' + message.content
-      if message.author.display_name in (all_stories[message.guild.name].contributors):
-       all_stories[message.guild.name].contributors[message.author.display_name] += 1
-      else:
-       all_stories[message.guild.name].contributors[message.author.display_name] = 1
-      await message.add_reaction('\N{THUMBS UP SIGN}')
+    elif guild in all_stories and cur_channel == game.channel:
+        await add_to_story(game, message)
 
 async def start_game(game, message):
     if game.channel != '':
@@ -78,11 +64,33 @@ async def start_game(game, message):
 
     game.channel = message.channel.name
     await message.channel.send('Starting a story!')
+
+
+
 async def disp_current(game, message):
      
      if game.story == '':
         await message.channel.send('The current story is empty.')
      else:
         await message.channel.send('Your current story is: ' + game.story)
-
+async def end_game(game, message):
+      
+      if game.story == '':
+        await message.channel.send('Ended the story.')
+        
+      else:
+        contributors_items = list((game.contributors).items())
+        contributors_items.sort(key = lambda x : x[1], reverse = True)
+        contributors_message = ''
+        for key in contributors_items:
+          contributors_message += key[0] + " - " + str(key[1]) + " contributions \n"
+        await message.channel.send('Your story is: ' + game.story +  '\n\nThe top contributors in this story were:\n' + contributors_message)
+      del game
+async def add_to_story(game,message):
+     game.story += ' ' + message.content
+     if message.author.display_name in (game.contributors):
+      game.contributors[message.author.display_name] += 1
+     else:
+      game.contributors[message.author.display_name] = 1
+      await message.add_reaction('\N{THUMBS UP SIGN}')
 client.run(TOKEN)
