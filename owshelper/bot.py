@@ -28,6 +28,8 @@ async def on_message(message):
     guild = message.guild.name
     cur_channel = message.channel.name
     command = message.content.lower()
+    if guild in all_stories:
+        game = all_stories[guild]
 
     if command == 'ows help':
         temp_message = 'Available commands:\n help - displays this menu\n start - starts a story\n current - displays the current story\n end - ends any current stories'
