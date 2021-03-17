@@ -92,8 +92,8 @@ async def end_game(game, message):
 async def add_to_story(game,message):
      game.story += ' ' + message.content
      if message.author.display_name in (game.contributors):
-      game.contributors[message.author.display_name] += 1
+       game.contributors[message.author.display_name] += 1
      else:
-      game.contributors[message.author.display_name] = 1
-      await message.add_reaction('\N{THUMBS UP SIGN}')
+       game.contributors[message.author.display_name] = 1
+     await message.add_reaction('\N{THUMBS UP SIGN}')
 client.run(TOKEN)
