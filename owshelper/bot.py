@@ -51,6 +51,7 @@ async def on_message(message):
         await message.channel.send('There is not an ongoing story right now!')
       else:
         await end_game(game, message)
+      del all_stories[guild]
 
     elif command[:3] == 'ows':
         await message.channel.send('Sorry, I didn\'t recognize that command. Try ows help for a list of commands.')
@@ -86,7 +87,6 @@ async def end_game(game, message):
         for key in contributors_items:
           contributors_message += key[0] + " - " + str(key[1]) + " contributions \n"
         await message.channel.send('Your story is: ' + game.story +  '\n\nThe top contributors in this story were:\n' + contributors_message)
-      del game
 async def add_to_story(game,message):
      game.story += ' ' + message.content
      if message.author.display_name in (game.contributors):
