@@ -55,8 +55,9 @@ async def on_message(message):
     elif command[:3] == 'ows':
         await message.channel.send('Sorry, I didn\'t recognize that command. Try ows help for a list of commands.')
 
-    elif guild in all_stories and cur_channel == game.channel:
-        await add_to_story(game, message)
+    elif guild in all_stories:
+        if cur_channel == game.channel:
+          await add_to_story(game, message)
 
 async def start_game(game, message):
     if game.channel != '':
