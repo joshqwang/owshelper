@@ -26,7 +26,6 @@ async def on_message(message):
     if message.author == client.user:
       return
     guild = message.guild.name
-    game = all_stories[guild]
     cur_channel = message.channel.name
     command = message.content.lower()
 
@@ -36,8 +35,9 @@ async def on_message(message):
 
     elif command == 'ows start':
       if guild in all_stories:
-          del game
-      game = Story()
+          del all_stories[guild]
+      all_stories[guild] = Story()
+      game = all_stories[guild]
       await start_game(game,message)
 
     elif command == 'ows current':
