@@ -32,24 +32,19 @@ async def on_message(message):
         await message.channel.send(temp_message)
 
     elif message.content == 'ows start':
-      if not message.guild.name in all_stories:
-          all_stories[message.guild.name] = Story()
-      else:
-          del all_stories[message.guild.name]
-          all_stories[message.guild.name] = Story()
 
-      if all_stories[message.guild.name].channel != '':
-          await message.channel.send('Ending a story in other channel!')
-      all_stories[message.guild.name].channel = message.channel.name
-      await message.channel.send('Starting a story!')
+      if message.guild.name in all_stories:
+          del all_stories[message.guild.name]
+      all_stories[message.guild.name] = Story()
+
+      start_game(all_stories[message.guild.name],message)
+
 
     elif message.content == 'ows current':
-     if not message.guild.name in all_stories:
+      if not message.guild.name in all_stories:
         await message.channel.send('There is not an ongoing story right now!')
-     elif all_stories[message.guild.name].story == '':
-        await message.channel.send('The current story is empty.')
-     else:
-        await message.channel.send('Your current story is: ' + all_stories[message.guild.name].story)
+      else:
+        disp_current(all_stories[message.guild.name], message)
 
     elif message.content == 'ows end':
       if not message.guild.name in all_stories:
@@ -77,5 +72,17 @@ async def on_message(message):
        all_stories[message.guild.name].contributors[message.author.display_name] = 1
       await message.add_reaction('\N{THUMBS UP SIGN}')
 
+async def start_game(game, message):
+    if game.channel != '':
+       await message.channel.send('Ending a story in other channel!')
+
+    game.channel = message.channel.name
+    await message.channel.send('Starting a story!')
+async def disp_current(game, message):
+     
+     if game.story == '':
+        await message.channel.send('The current story is empty.')
+     else:
+        await message.channel.send('Your current story is: ' + game.story)
 
 client.run(TOKEN)
