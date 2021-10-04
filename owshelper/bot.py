@@ -33,11 +33,11 @@ async def on_message(message):
             await message.channel.send("No one fucking asked but im a human being ")
             await message.channel.send("with an opinion and evidence to back it up, and ")
             await message.channel.send("the soldiers of the revolutionary war and the civil war and the world wars all fought ")
-            await message.channel.send("so that I had the right to free speech and thus the right to state "
-            await message.channel.send("that opinion and the evidence I have even when no one fucking asked."
-            await message.channel.send("And I know what you're going to say right after I finish sending this hammer of logic straight to your senses,"
+            await message.channel.send("so that I had the right to free speech and thus the right to state ")
+            await message.channel.send("that opinion and the evidence I have even when no one fucking asked.")
+            await message.channel.send("And I know what you're going to say right after I finish sending this hammer of logic straight to your senses,")
             await message.channel.send("you miserable little fucktwat, you're going to say \"who tf asked?\" ")
-            await message.channel.send("like you've reached the pinnacle of comedy. I would call you a fucking clown"
+            await message.channel.send("like you've reached the pinnacle of comedy. I would call you a fucking clown")
             await message.channel.send("but clowns are either funny or scary and you're neither and you'll never be either in the eyes of anyone.")
             await message.channel.send("And despite all that you might say")
             await message.channel.send("and despite your constant regurgitation of the overused sassy 'comeback'")
