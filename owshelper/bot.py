@@ -28,7 +28,7 @@ async def on_message(message):
     guild = message.guild.name
     cur_channel = message.channel.name
     command = message.content.lower()
-    if "who asked" in command:
+    if "who asked" in command or "who tf asked" in command:
         if message.author.id == 415981659297677347:
             await message.channel.send("No one fucking asked but im a human being ")
             await message.channel.send("with an opinion and evidence to back it up, and ")
