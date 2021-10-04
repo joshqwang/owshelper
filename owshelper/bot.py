@@ -28,6 +28,25 @@ async def on_message(message):
     guild = message.guild.name
     cur_channel = message.channel.name
     command = message.content.lower()
+    if "who asked" in command:
+        if message.author.id == 415981659297677347:
+            await message.channel.send("No one fucking asked but im a human being ")
+            await message.channel.send("with an opinion and evidence to back it up, and ")
+            await message.channel.send("the soldiers of the revolutionary war and the civil war and the world wars all fought ")
+            await message.channel.send("so that I had the right to free speech and thus the right to state "
+            await message.channel.send("that opinion and the evidence I have even when no one fucking asked."
+            await message.channel.send("And I know what you're going to say right after I finish sending this hammer of logic straight to your senses,"
+            await message.channel.send("you miserable little fucktwat, you're going to say \"who tf asked?\" ")
+            await message.channel.send("like you've reached the pinnacle of comedy. I would call you a fucking clown"
+            await message.channel.send("but clowns are either funny or scary and you're neither and you'll never be either in the eyes of anyone.")
+            await message.channel.send("And despite all that you might say")
+            await message.channel.send("and despite your constant regurgitation of the overused sassy 'comeback'")
+            await message.channel.send("you will not amount to anything and you disgrace the ancestors of your lineage ")
+            await message.channel.send("who fought hard so that you and I can stand here and say whatever we like without no one fucking asking.")
+            await message.channel.send("Shut the fuck up and go back to the storm drain where your mother abandoned you. ")
+            await message.channel.send("Because she didn't 'ask' for a disrespectful midgetwit to be the next in her family tree. ")
+            await message.channel.send("So for her sake and your ancestors' sake and for my sake don't ever fucking again sarcastically ask \"who tf asked\". ")
+            await message.channel.send("Because guess what fucker, no one asked for you to say that, and unlike me, no one respects you. So stfu.")
     if guild in all_stories:
         game = all_stories[guild]
 
