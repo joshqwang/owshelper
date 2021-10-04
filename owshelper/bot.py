@@ -30,6 +30,8 @@ async def on_message(message):
     command = message.content.lower()
     if "who asked" in command or "who tf asked" in command:
         if message.author.id == 415981659297677347:
+            await message.channel.send("You ruined the joke it's not funny anymore")
+            """
             await message.channel.send("No one fucking asked but im a human being ")
             await message.channel.send("with an opinion and evidence to back it up, and ")
             await message.channel.send("the soldiers of the revolutionary war and the civil war and the world wars all fought ")
@@ -47,6 +49,7 @@ async def on_message(message):
             await message.channel.send("Because she didn't 'ask' for a disrespectful midgetwit to be the next in her family tree. ")
             await message.channel.send("So for her sake and your ancestors' sake and for my sake don't ever fucking again sarcastically ask \"who tf asked\". ")
             await message.channel.send("Because guess what fucker, no one asked for you to say that, and unlike me, no one respects you. So stfu.")
+            """
     if guild in all_stories:
         game = all_stories[guild]
 
