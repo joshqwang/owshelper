@@ -28,6 +28,10 @@ async def on_message(message):
     guild = message.guild.name
     cur_channel = message.channel.name
     command = message.content.lower()
+    if command == '!chika':
+        e = discord.Embed()
+        e.set_image(url="https://cdn.discordapp.com/attachments/788483868071821312/902213122046185492/IMG_0146.png")
+        await message.channel.send(embed = e)
     if "who asked" in command or "who tf asked" in command:
         if message.author.id == 415981659297677347:
             await message.channel.send("You ruined the joke it's not funny anymore")
